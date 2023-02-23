@@ -1,0 +1,27 @@
+	const express = require('express');
+	const app = express();
+	const path = require('path');
+	const router = express.Router();
+
+	router.get('/', function(req, res) {
+		res.sendFile(path.join(__dirname+'/index.html'));
+	})
+
+	router.get('/DFC', function(req, res) {
+		res.sendFile(path.join(__dirname+'/DFC.html'));
+	})
+	router.get('/DR', function(req, res) {
+		res.sendFile(path.join(__dirname+'/DR.html'));
+	})
+
+	app.use(express.static('public'));
+	app.use('/', router);
+	app.listen(process.env.port || 3000);
+
+
+(async () => {
+    const db = require("./db");
+    console.log('SELECT first_name* FROM ACTOR');
+
+    const clientes = await db.selectCustomers();
+})();
