@@ -2,14 +2,14 @@ import logo from './logo.png';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css';
 import Home from './components/Home';
-import DR from './components/DR';
-import Services from './components/cadServices';
 import Estoque from './components/Estoque';
 import FluxoCaixa from './components/fluxoCaixa';
+import Impostos from './components/Impostos';
 import CustoProd from './components/CustoProd';
 import DespGestao from './components/despGestao';
-import Andamento from './components/Andamento';
-import Concluidos from './components/Concluidos';import Container from 'react-bootstrap/Container';
+import Services1 from './components/Services';
+import Empregados from './components/Empregados';
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -47,16 +47,14 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <NavDropdown title="Agendamento/Despesas" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/cadServices">Agendamento- Cadastro</NavDropdown.Item>
-              <NavDropdown.Item href="/Andamento">Agendamento- Gestão</NavDropdown.Item>
-              <NavDropdown.Item href="/DR">Despesas- Cadastro</NavDropdown.Item>
-              <NavDropdown.Item href="/Despesas">Despesas- Gestão</NavDropdown.Item>
+              <NavDropdown.Item href="/Services">Agendamento</NavDropdown.Item>
+              <NavDropdown.Item href="/Despesas">Despesas</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Gestão" id="basic-nav-dropdown">
               <NavDropdown.Item href="/Empregados">Empregados</NavDropdown.Item>
               <NavDropdown.Item href="/Estoque">Estoque</NavDropdown.Item>
               <NavDropdown.Item href="/CustoProd">Custo Prod</NavDropdown.Item>
-              <NavDropdown.Item href="/FluxoCaixa">Fluxo de caixa</NavDropdown.Item>
+              <NavDropdown.Item href="/Impostos">Impostos</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Relatórios" id="basic-nav-dropdown">
               <NavDropdown.Item href="/Empregados">Relatório anual</NavDropdown.Item>
@@ -72,19 +70,13 @@ function App() {
             <Route path="/" element={<Home />} > </Route>
       </Routes>
       <Routes>
-            <Route path="/Andamento" element={<Andamento />} > </Route>
-      </Routes>
-      <Routes>
-            <Route path="/cadServices" element={<Services />} > </Route>
-      </Routes>
-      <Routes>
-            <Route path="/DR" element={<DR />} > </Route>
+            <Route path="/Services" element={<Services1 />} > </Route>
       </Routes>
       <Routes>
             <Route path="/Despesas" element={<DespGestao/>} > </Route>
       </Routes>
       <Routes>
-            <Route path="/Empregados" element={<Concluidos />} > </Route>
+            <Route path="/Empregados" element={<Empregados />} > </Route>
       </Routes>
       <Routes>
             <Route path="/Estoque" element={<Estoque />} > </Route>
@@ -93,7 +85,7 @@ function App() {
             <Route path="/CustoProd" element={<CustoProd />} > </Route>
       </Routes>
       <Routes>
-            <Route path="/FluxoCaixa" element={<FluxoCaixa />} > </Route>
+            <Route path="/Impostos" element={<Impostos />} > </Route>
       </Routes>
     </Router>
     </body>

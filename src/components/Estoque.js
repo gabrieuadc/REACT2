@@ -6,6 +6,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import Modal from 'react-bootstrap/Modal';
 
 function Estoque(){
 
@@ -103,48 +104,65 @@ const styles3 = {
 	backgroundColor: "#000000",
   };
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 	return(
 		<div>
 			<h3>Cadastro de Estoque</h3><br></br>
-				<Form onSubmit={submit}>
+			<Button variant="primary" onClick={handleShow} >Novo
+				</Button>
+				<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
+			</Button>
+			<br></br>
+
+			<Modal show={show} onHide={handleClose} size="lg"centered>
+				<Modal.Header closeButton>
+				<Modal.Title>Estoque</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+				<Form>
 					<Row>
 						<Col>
 						<FloatingLabel label="Produto" className="mb-2">
-						<Form.Control disabled={desabilitar} type="text" placeholder="Produto" name="prod" onChange={handleChange}/>
+						<Form.Control type="text" placeholder="Produto" name="prod" onChange={handleChange}/>
 						</FloatingLabel>
 						</Col>
 						<Col>
 						<FloatingLabel label="Unidade" className="mb-2">
-						<Form.Control disabled={desabilitar} type="text" placeholder="Unidade" name="un" onChange={handleChange}/>
+						<Form.Control type="text" placeholder="Unidade" name="un" onChange={handleChange}/>
 						</FloatingLabel>
 						</Col>	
 						<Col>
 						<FloatingLabel label="Quantidade" className="mb-2">
-						<Form.Control disabled={desabilitar} type="number" placeholder="Quantidade" name="qtd" onChange={handleChange}/>
+						<Form.Control type="number" placeholder="Quantidade" name="qtd" onChange={handleChange}/>
 						</FloatingLabel>
 						</Col>
 						<Col>
 						<FloatingLabel label="Valor" className="mb-2">
-						<Form.Control disabled={desabilitar} type="number" placeholder="Valor" name="value" onChange={handleChange}/>
+						<Form.Control type="number" placeholder="Valor" name="value" onChange={handleChange}/>
 						</FloatingLabel>
 						</Col>
 						<Col>
 						<FloatingLabel label="Data" className="mb-2">
-						<Form.Control disabled={desabilitar} type="date" placeholder="Data" name="date" onChange={handleChange}/>
+						<Form.Control type="date" placeholder="Data" name="date" onChange={handleChange}/>
 						</FloatingLabel>
 						</Col>				
-						<Col sm="3">
-						<Button variant="primary" onClick={()=> desabilitar1()}>Novo
-						</Button>
-						<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
-						</Button>
-						<Button variant="primary" type="submit">Gravar
-						</Button>
-						</Col>
 					</Row>
 					</Form>
-					<br></br><br></br>
-
+				</Modal.Body>
+				<Modal.Footer>
+				<Button variant="secondary" onClick={handleClose}>
+					Close
+				</Button>
+				<Button variant="primary" onClick={submit}>
+					Save Changes
+				</Button>
+				</Modal.Footer>
+      		</Modal>
+		<br></br><br></br>
 			<Table striped bordered hover variant="dark" >
 			<thead>
 			<tr>

@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Table from 'react-bootstrap/Table';
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import Modal from 'react-bootstrap/Modal';
 
 function CustoProd(){
 
@@ -111,46 +112,65 @@ function pathPost(id){
 		backgroundColor: "#000000",
 	  };
 
+	  const [show, setShow] = useState(false);
+
+	  const handleClose = () => setShow(false);
+	  const handleShow = () => setShow(true);
+
 	return(
 		<div>
-			<h2>Apuração de custo</h2><br></br><br></br>
-			<Form onSubmit={submit}>
-			<Row>
-				<Col>
-				<FloatingLabel label="Matéria prima direta" className="mb-2">
-				<Form.Control disabled={desabilitar} type="number" placeholder="Matéria prima direta" name="mpd" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>
-				<Col>
-				<FloatingLabel label="Mão de obra direta" className="mb-2">
-				<Form.Control disabled={desabilitar} type="number" placeholder="Mão de obra direta" name="mod" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>	
-				<Col>
-				<FloatingLabel label="CIF" className="mb-2">
-				<Form.Control disabled={desabilitar} type="number" placeholder="CIF" name="cif" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>
-				<Col>
-				<FloatingLabel label="Custo de produção" className="mb-2">
-				<Form.Control disabled={desabilitar} type="number" placeholder="Custo de produção" name="cpp"onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>
-				<Col>
-				<FloatingLabel label="Data" className="mb-2">
-				<Form.Control disabled={desabilitar} type="date" placeholder="Data" name="date" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>				
-				<Col sm="3">
-				<Button variant="primary" onClick={()=> desabilitar1()}>Novo
+			<h2>Apuração de custo</h2><br></br>
+			<Button variant="primary" onClick={handleShow} >Novo
 				</Button>
 				<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
-				</Button>
-				<Button variant="primary" type="submit">Gravar
-				</Button>
+			</Button>
+			<br></br>
+
+		<Modal show={show} onHide={handleClose} size="lg"centered>
+			<Modal.Header closeButton>
+			<Modal.Title>Apuração de custo</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+			<Form>
+			<Row>
+				<Col sm="2">
+				<FloatingLabel label="Matéria prima direta" className="mb-2">
+				<Form.Control type="number" placeholder="Matéria prima direta" name="mpd" onChange={handleChange}/>
+				</FloatingLabel>
 				</Col>
+				<Col sm="2">
+				<FloatingLabel label="Mão de obra direta" className="mb-2">
+				<Form.Control type="number" placeholder="Mão de obra direta" name="mod" onChange={handleChange}/>
+				</FloatingLabel>
+				</Col>	
+				<Col sm="2">
+				<FloatingLabel label="CIF" className="mb-2">
+				<Form.Control type="number" placeholder="CIF" name="cif" onChange={handleChange}/>
+				</FloatingLabel>
+				</Col>
+				<Col sm="2">
+				<FloatingLabel label="Custo de produção" className="mb-2">
+				<Form.Control type="number" placeholder="Custo de produção" name="cpp"onChange={handleChange}/>
+				</FloatingLabel>
+				</Col>
+				<Col sm="2">
+				<FloatingLabel label="Data" className="mb-2">
+				<Form.Control type="date" placeholder="Data" name="date" onChange={handleChange}/>
+				</FloatingLabel>
+				</Col>				
 			</Row>
 			</Form>
+			</Modal.Body>
+			<Modal.Footer>
+			<Button variant="secondary" onClick={handleClose}>
+				Close
+			</Button>
+			<Button variant="primary" onClick={submit}>
+				Gravar
+			</Button>
+			</Modal.Footer>
+      	</Modal>
+
 			<br></br><br></br><br></br>
 
 			<Table striped bordered hover variant="dark" >

@@ -7,8 +7,9 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import Modal from 'react-bootstrap/Modal';
 
-function Concluidos(){
+function Empregados(){
 
 	const [categories, setCategories] = useState([])
 	const [project, setProject] = useState([]);
@@ -101,8 +102,7 @@ function pathPost(id){
 	}
 
 	const styles3 = {
-		color: "#E9573F",
-		backgroundColor: "#000000",
+		display: "inline flow;",
 	  };
 
 	  const styles4 = {
@@ -110,46 +110,71 @@ function pathPost(id){
 		backgroundColor: "#000000",
 	  };
 
+	  const [show, setShow] = useState(false);
+
+	  const handleClose = () => setShow(false);
+	  const handleShow = () => setShow(true);
+
 	return(
 		<div><p>
 			<h3>Cadastro de Empregados</h3><br></br></p>
-		<Form onSubmit={submit}>
+			<div style={styles3}>
+			<Button variant="primary" onClick={handleShow}>Novo
+			</Button>
+			<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
+			</Button>
+			</div>
+
+			<Modal
+			show={show}
+			onHide={handleClose}
+			size="lg"
+			centered
+		>
+			<Modal.Header closeButton>
+			<Modal.Title>Cadastro de empregados</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+			<Form style={{display: "flex"}}>
 			<Row>
 				<Col>
-				<FloatingLabel label="Nome" className="mb-2">
-				<Form.Control disabled={desabilitar} type="text" placeholder="Nome" name="name" onChange={handleChange}/>
+				<FloatingLabel label="Nome">
+				<Form.Control type="text" placeholder="Nome" name="name" onChange={handleChange}/>
 				</FloatingLabel>
 				</Col>
 				<Col>
-				<FloatingLabel label="Telefone" className="mb-2">
-				<Form.Control disabled={desabilitar} type="number" placeholder="Telefone" name="contact" onChange={handleChange}/>
+				<FloatingLabel label="Telefone" className="mb-3">
+				<Form.Control type="number" placeholder="Telefone" name="contact"  onChange={handleChange}/>
 				</FloatingLabel>
 				</Col>	
 				<Col>
-				<FloatingLabel label="Serviço" className="mb-2">
-				<Form.Control disabled={desabilitar} type="text" placeholder="Serviço" name="service" onChange={handleChange}/>
+				<FloatingLabel label="Serviço" className="mb-3">
+				<Form.Control type="text" placeholder="Serviço" name="service" onChange={handleChange}/>
 				</FloatingLabel>
 				</Col>
 				<Col>
-				<FloatingLabel label="Salário" className="mb-2">
-				<Form.Control disabled={desabilitar} type="number" placeholder="Salário" name="salar"onChange={handleChange}/>
+				<FloatingLabel label="Salário" className="mb-3">
+				<Form.Control type="number" placeholder="Salário" name="salar"onChange={handleChange}/>
 				</FloatingLabel>
 				</Col>
 				<Col>
-				<FloatingLabel label="Data de admissão" className="mb-2">
-				<Form.Control disabled={desabilitar} type="date" placeholder="Data de admissão" name="adm" onChange={handleChange}/>
+				<FloatingLabel label="Data de admissão" className="mb-3">
+				<Form.Control type="date" placeholder="Data de admissão" name="adm" onChange={handleChange}/>
 				</FloatingLabel>
 				</Col>				
-				<Col sm="3">
-				<Button variant="primary" onClick={()=> desabilitar1()}>Novo
-				</Button>
-				<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
-				</Button>
-				<Button variant="primary" type="submit">Gravar
-				</Button>
-				</Col>
+				{/* <Col sm="3">
+				</Col> */}
 			</Row>
 			</Form>
+			</Modal.Body>
+			<Modal.Footer>
+			<Button variant="secondary" onClick={handleClose}>
+				Close
+			</Button>
+			<Button variant="primary" type="submit" onClick={submit}>Gravar</Button>
+			</Modal.Footer>
+		</Modal>
+
 			<br></br><br></br><br></br>
 
 			<Table striped bordered hover variant="dark" >
@@ -220,7 +245,7 @@ function pathPost(id){
 	);
 }
 
-export default Concluidos;
+export default Empregados;
 
 // const andStatus = categories.filter((andStatus, index, array) => andStatus.status == 0);
 // console.log(andStatus.name);
