@@ -5,8 +5,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Table from 'react-bootstrap/Table';
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillPencilFill, BsFillTrashFill, BsArrowLeftSquareFill, BsArrowRightSquareFill } from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+
 
 function CustoProd(){
 
@@ -15,6 +18,8 @@ function CustoProd(){
 	const [categories, setCategories] = useState([])
 	const [project, setProject] = useState([]);
 	const [desabilitar, setDesabilitar] = useState(true);
+	const [desabilitarNew, setDesabilitarNew] = useState(false);
+	const [desabilitarEdit, setDesabilitarEdit] = useState(false);
 
 
 	useEffect(() => {
@@ -117,62 +122,61 @@ function pathPost(id){
 	  const handleClose = () => setShow(false);
 	  const handleShow = () => setShow(true);
 
+	  const [show1, setShow1] = useState(false);
+
+	  const handleClose1 = () => setShow1(false);
+	  const handleShow1 = () => setShow1(true);
+
 	return(
 		<div>
-			<h2>Apuração de custo</h2><br></br>
-			<Button variant="primary" onClick={handleShow} >Novo
-				</Button>
-				<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
-			</Button>
-			<br></br>
+		<h3>Custos</h3><br></br>
 
-		<Modal show={show} onHide={handleClose} size="lg"centered>
-			<Modal.Header closeButton>
-			<Modal.Title>Apuração de custo</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
+			<Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3" >
+			<Tab eventKey="home" title="Cadastro custos">
 			<Form>
-			<Row>
-				<Col sm="2">
+			<Button variant="primary"><BsArrowLeftSquareFill/>
+			</Button>
+			<Button variant="primary"><BsArrowRightSquareFill/>
+			</Button>
+			<input className="mb-2" type="number" value="10" />
+			<br></br>
+			<br></br>
 				<FloatingLabel label="Matéria prima direta" className="mb-2">
-				<Form.Control type="number" placeholder="Matéria prima direta" name="mpd" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>
-				<Col sm="2">
-				<FloatingLabel label="Mão de obra direta" className="mb-2">
-				<Form.Control type="number" placeholder="Mão de obra direta" name="mod" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>	
-				<Col sm="2">
-				<FloatingLabel label="CIF" className="mb-2">
-				<Form.Control type="number" placeholder="CIF" name="cif" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>
-				<Col sm="2">
-				<FloatingLabel label="Custo de produção" className="mb-2">
-				<Form.Control type="number" placeholder="Custo de produção" name="cpp"onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>
-				<Col sm="2">
-				<FloatingLabel label="Data" className="mb-2">
-				<Form.Control type="date" placeholder="Data" name="date" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>				
-			</Row>
-			</Form>
-			</Modal.Body>
-			<Modal.Footer>
-			<Button variant="secondary" onClick={handleClose}>
-				Close
-			</Button>
-			<Button variant="primary" onClick={submit}>
-				Gravar
-			</Button>
-			</Modal.Footer>
-      	</Modal>
+					<Form.Control type="number" placeholder="Matéria prima direta" name="mpd" onChange={handleChange}/>
+					</FloatingLabel>
 
-			<br></br><br></br><br></br>
+					<FloatingLabel label="Mão de obra direta" className="mb-2">
+					<Form.Control type="number" placeholder="Mão de obra direta" name="mod" onChange={handleChange}/>
+					</FloatingLabel>
 
+					<FloatingLabel label="CIF" className="mb-2">
+					<Form.Control type="number" placeholder="CIF" name="cif" onChange={handleChange}/>
+					</FloatingLabel>
+
+					<FloatingLabel label="Custo de produção" className="mb-2">
+					<Form.Control type="number" placeholder="Custo de produção" name="cpp"onChange={handleChange}/>
+					</FloatingLabel>
+
+					<FloatingLabel label="Data" className="mb-2">
+					<Form.Control type="date" placeholder="Data" name="date" onChange={handleChange}/>
+					</FloatingLabel>
+
+					<br></br>
+					<Button variant="primary" onClick={submit}>
+						Novo
+					</Button>
+					<Button variant="primary" onClick={submit}>
+						Editar
+					</Button>
+					<Button variant="primary" onClick={submit}>
+						Gravar
+					</Button>
+				</Form>
+				</Tab>
+			
+			<Tab eventKey="profile" title="Gestão custos">
+			<br></br>
+			<br></br>
 			<Table striped bordered hover variant="dark" >
 			<thead>
 			<tr>
@@ -198,6 +202,9 @@ function pathPost(id){
 				</tr>
 			</tbody>
 		</Table>
+			</Tab>
+			</Tabs>
+
 	  </div>
 	);
 }

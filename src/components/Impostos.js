@@ -97,15 +97,24 @@ function Impostos(){
 
 	async function handleChanger(){
 		try{
-            setreceita([categories].map((infos)=> infos.receita)); 
-			setpis([categories].map((infos)=> infos.receita * 0.0065));
-			setcofins([categories].map((infos)=> infos.receita * 0.003));
-			setvalortotal([categories].map((infos)=> parseInt(pis)+ parseInt((cofins))));
-            console.log(cofins);
+            setreceita(Number([categories].map((infos)=> Number(infos.receita)))); 
+			setpis(Number([categories].map((infos)=> Number(infos.receita * 0.0065))));
+			setcofins(Number([categories].map((infos)=> Number(infos.receita * 0.003))));
+			setvalortotal(Number([categories].map((infos)=> Number(infos.receita * 0.0065) + Number(infos.receita * 0.003))));
+		const teste={
+			receita:receita,
+			pis:pis,
+			cofins:cofins,
+		}
+		console.log(teste);
 		}
 		catch(err){
 			console.log(err);
 		}
+	}
+
+	async function totalizar(){
+		return Number(valortotal);
 	}
 
 	const styles2 = {
@@ -137,6 +146,31 @@ function Impostos(){
 	// onChange={(valor3)=> {setDespesas({...despesas,[valor3.target.name]: valor3.target.value})}} 
 	// onChange={(valor1)=> {setClientes(valor1.target.value)}}
 
+	const [total, setTotal] = useState(0);
+
+	// function handleInputChange(event) {
+	//   const value = Number(event.target.value);
+	//   setTotal(total + value);
+	// }
+
+	// const [values, setValues] = useState([]);
+
+	// const handleInputChange1 = (event) => {
+	//   const newValues = [...values, Number(event.target.value)];
+	//   setValues(newValues);
+	//   console.log(newValues);
+	// }
+  
+	// const calculateTotal = () => {
+	// 	const total = Object.values(categories).reduce((acc, curr) => {
+	// 	  const value = parseFloat(curr) || 0;
+	// 	  return acc + value;
+	// 	}, 0);
+	// 	return total;
+	//   };
+
+
+
 
 	return(
         <div>
@@ -153,12 +187,12 @@ function Impostos(){
 		  </FloatingLabel>
 		</Form.Group>
 		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(-) DEVOLUÇÕES E CANCELAMENTOS" className="mb-2">
-		  <Form.Control name ="dev" type="number"  />
+		  <FloatingLabel label="(-) DEDUÇÕES" className="mb-2">
+		  <Form.Control name ="ded" type="number"  />
 		  </FloatingLabel>
 		</Form.Group>
 
-        <Form.Group className="mb-3" >
+        {/* <Form.Group className="mb-3" >
 		  <FloatingLabel label="(-) IPI" className="mb-2">
 		  <Form.Control name ="dev" type="number"  />
 		  </FloatingLabel>
@@ -168,7 +202,7 @@ function Impostos(){
 		  <FloatingLabel label="(-) ISENTAS/MONOFASICAS" className="mb-2">
 		  <Form.Control name ="dev" type="number"  />
 		  </FloatingLabel>
-		</Form.Group>
+		</Form.Group> */}
 
         <Form.Group className="mb-3" >
 		  <FloatingLabel label="PIS" className="mb-2">
@@ -228,24 +262,24 @@ function Impostos(){
 
         <Form.Group className="mb-3" >
         <FloatingLabel label="IRPJ" className="mb-2">
-        <Form.Control name ="irpj" type="number"  value={pis} />
+        <Form.Control name ="irpj" type="number"/>
         </FloatingLabel>
         </Form.Group>
         <Form.Group className="mb-3" >
         <FloatingLabel label="ADICIONAL IRPJ" className="mb-2">
-        <Form.Control name ="adcirpj" type="number"  value={pis} />
+        <Form.Control name ="adcirpj" type="number"/>
         </FloatingLabel>
         </Form.Group>
 
         <Form.Group className="mb-3" >
         <FloatingLabel label="CSLL" className="mb-2">
-        <Form.Control name ="csll" type="number"  value={cofins} />
+        <Form.Control name ="csll" type="number"/>
         </FloatingLabel>
         </Form.Group>
 
         <Form.Group className="mb-3" >
         <FloatingLabel label="(=) Valor a pagar" className="mb-2">
-        <Form.Control name ="name" type="number" value={valortotal}/>
+        <Form.Control name ="name" type="number"/>
         </FloatingLabel>
         </Form.Group>
 

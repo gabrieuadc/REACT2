@@ -136,9 +136,18 @@ function pathPost(id){
 
 	return(
 		<div style={styles2}>
-		<h2>Fluxo de caixa</h2><br></br>
+		<h2>Livro caixa</h2><br></br>
 		<Form onSubmit={submit} style={{ width: '400px',  fontWeight: "bold" }}>
 
+		<Form.Group className="mb-3" controlId="formBasicEmail">
+			<Form.Label>CAIXA MENSAL</Form.Label>
+			<Form.Control name="filter" type="month" placeholder="Insira a vigência desejada"/>
+			<Form.Text className="text-muted">
+			Mês e ano a ser filtrado as despesas.
+		</Form.Text>
+		</Form.Group>
+
+		<br></br>
 		<Form.Group className="mb-3" >
 		  <FloatingLabel label="(+) Recebimento de clientes" className="mb-2">
 		  <Form.Control name ="clientes" type="number" onChange={handleChange} />
@@ -151,72 +160,24 @@ function pathPost(id){
 		</Form.Group>
 
 		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(-) Despesas administrativas e comerciais" className="mb-2">
-		  <Form.Control name ="despesas" type="number"  onChange={handleChange} />
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(=) Caixa obtido pelas atividades operacionais" className="mb-2">
-		  <Form.Control name ="caixa" type="number" value ={caixaOP}  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(-) Compra de ativo" className="mb-2">
-		  <Form.Control name ="cativo" type="number"  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(+) Recebimento de dividendos" className="mb-2">
-		  <Form.Control name ="rdiv" type="number"  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(=) Caixa obtido pelas atividades de investimento" className="mb-2">
-		  <Form.Control name ="name" type="number" value={caixaINV}  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(-) Pagamento de financiamento" className="mb-2">
-		  <Form.Control name ="pfinan" type="number"  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(+) Integralização de capital" className="mb-2">
-		  <Form.Control name ="intcap" type="number"  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
-		  <FloatingLabel label="(=) Caixa obtido pelas atividades de financeiro" className="mb-2">
-		  <Form.Control name ="name" type="number" value={caixaFIN}  onChange={handleChange}/>
-		  </FloatingLabel>
-		</Form.Group>
-
-		<Form.Group className="mb-3" >
 		  <FloatingLabel label="(=) Saldo das disponibilidades" className="mb-2">
 		  <Form.Control name ="name" type="number" value={caixaFIN}  onChange={handleChange}/>
 		  </FloatingLabel>
 		</Form.Group>
 
-		<Form.Group className="mb-3" >
+		{/* <Form.Group className="mb-3" >
 		  <FloatingLabel label="Exercicio" className="mb-2">
 		  <Form.Control name ="name" type="month"  onChange={handleChange}/>
 		  </FloatingLabel>
-		</Form.Group>
+		</Form.Group> */}
 
-		<Button variant="primary" onClick={() => handleChanger()}>
+		{/* <Button variant="primary" onClick={() => handleChanger()}>
 		  Apurar
-		</Button>
+		</Button> */}
 
-		<Button variant="primary" type="submit">
+		{/* <Button variant="primary" type="submit">
 		  Salvar
-		</Button>
+		</Button> */}
 	  </Form>
 	  </div>
 	);

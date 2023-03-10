@@ -1,19 +1,28 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Table from 'react-bootstrap/Table';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillPencilFill, BsFillTrashFill, BsArrowLeftSquareFill, BsArrowRightSquareFill } from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import ToggleButton from 'react-bootstrap/ToggleButton';
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 
 function Empregados(){
 
+
+	const [id, setid]= useState("63e3fb9778dd725ec0472b1c");
 	const [categories, setCategories] = useState([])
+	const [empregado, setEmpregado] = useState([])
 	const [project, setProject] = useState([]);
 	const [desabilitar, setDesabilitar] = useState(true);
+	const [desabilitarNew, setDesabilitarNew] = useState(false);
+	const [desabilitarEdit, setDesabilitarEdit] = useState(false);
 
 
 	useEffect(() => {
@@ -29,6 +38,21 @@ function Empregados(){
 		})
 		.catch((err) => console.log(err))
 	}, []);
+
+	function getByID(id){
+		fetch(`http://localhost:4000/empregado/${id}`,{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+		.then((resp) => resp.json())
+		.then((data) => {
+			setEmpregado(data)
+			console.log(empregado)
+		})
+		.catch((err) => console.log(err))
+	}
 
 	function createPost(project){
 		fetch('http://localhost:4000/empregado/',{
@@ -63,12 +87,13 @@ function deletePost(id){
 	.catch((err) => console.log(err))
 };
 
-function pathPost(id){
+function pathPost(id, empregado){
 	fetch(`http://localhost:4000/service/${id}`,{
 		method: 'PATH',
 		headers: {
 			'Content-Type': 'application/json',
 		},
+		body: JSON.stringify(empregado)
 	})
 	.then((resp) => resp.json())
 	.then((data) => {
@@ -88,17 +113,30 @@ function pathPost(id){
 		createPost(project)
 	}
 
-	function desabilitar1(e) {
+	function desabilitarNot(e) {
 		setDesabilitar(false);
 	}
 
-	function desabilitar2(e) {
+	function desabilitarYes(e) {
 		setDesabilitar(true);
 	}
 
 	function handleChange(e){
 		setProject({...project, [e.target.name] : e.target.value})
 		console.log(project)
+	}
+
+	function handleChange15(e){
+		setEmpregado({...empregado, [e.target.name] : e.target.value})
+		console.log(empregado)
+	}
+
+	function handleChange12(e){
+		setid(valor_antigo => valor_antigo+1)
+	}
+
+	function handleChange13(e){
+		setid(valor_antigo => valor_antigo -1)
 	}
 
 	const styles3 = {
@@ -110,73 +148,116 @@ function pathPost(id){
 		backgroundColor: "#000000",
 	  };
 
-	  const [show, setShow] = useState(false);
 
-	  const handleClose = () => setShow(false);
-	  const handleShow = () => setShow(true);
+
+
+	  const [buttonName1, setButtonName1] = useState('Novo');
+	  const [isSelected1, setIsSelected1] = useState(false);
+
+	  
+	  const [buttonName, setButtonName] = useState('Editar');
+	  const [isSelectedEdit, setIsSelectedEdit] = useState(false);
+
+	  const handleReset = () => {
+		setEmpregado({
+		  name: '',
+		  contact: '',
+		  service: '',
+		  salar: '',
+		  adm:''
+		});
+
+		if(!isSelected1){
+			setButtonName1('Cancelar')
+			setIsSelected1(true)
+			desabilitarNot();
+			setDesabilitarEdit(true);
+		}
+		else{
+			setButtonName1('Novo')
+			setIsSelected1(false)
+			desabilitarYes();
+			setDesabilitarEdit(false);
+		}
+
+	  };
+
+	  const handleClick = () => {
+		if (!isSelectedEdit) {
+		  setButtonName('Cancelar');
+		  setIsSelectedEdit(true);
+		  desabilitarNot();
+		  setDesabilitarNew(true);
+		}
+		else{
+			setButtonName('Editar');
+			setIsSelectedEdit(false);
+			desabilitarYes();
+			setDesabilitarNew(false);
+		}
+	  }
+
+	  const postorpath = () => {
+		if(isSelectedEdit==true){
+			pathPost(empregado);
+		}
+		else{
+			createPost(empregado);
+		}
+	  };
+
 
 	return(
 		<div><p>
-			<h3>Cadastro de Empregados</h3><br></br></p>
-			<div style={styles3}>
-			<Button variant="primary" onClick={handleShow}>Novo
-			</Button>
-			<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
-			</Button>
-			</div>
+			<h3>Empregados</h3><br></br></p>
 
-			<Modal
-			show={show}
-			onHide={handleClose}
-			size="lg"
-			centered
-		>
-			<Modal.Header closeButton>
-			<Modal.Title>Cadastro de empregados</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-			<Form style={{display: "flex"}}>
-			<Row>
-				<Col>
+			<Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3" >
+			<Tab eventKey="home" title="Cadastro empregado">
+			<Form>
+			<Button variant="primary"><BsArrowLeftSquareFill/>
+			</Button>
+			<Button variant="primary" onClick={()=>getByID("63e3fb9778dd725ec0472b1c")}><BsArrowRightSquareFill/>
+			</Button>
+			<input className="mb-2" type="number" value={id} />
+			<br></br>
+			<br></br>
+
 				<FloatingLabel label="Nome">
-				<Form.Control type="text" placeholder="Nome" name="name" onChange={handleChange}/>
+				<Form.Control type="text" placeholder="Nome" name="name" value={empregado.name} onChange={handleChange15} disabled={desabilitar}/>
 				</FloatingLabel>
-				</Col>
-				<Col>
+				<br></br>
+
 				<FloatingLabel label="Telefone" className="mb-3">
-				<Form.Control type="number" placeholder="Telefone" name="contact"  onChange={handleChange}/>
+				<Form.Control type="number" placeholder="Telefone" name="contact" value={empregado.contact} onChange={handleChange15} disabled={desabilitar}/>
 				</FloatingLabel>
-				</Col>	
-				<Col>
+
 				<FloatingLabel label="Serviço" className="mb-3">
-				<Form.Control type="text" placeholder="Serviço" name="service" onChange={handleChange}/>
+				<Form.Control type="text" placeholder="Serviço" name="service" value={empregado.service} onChange={handleChange15} disabled={desabilitar}/>
 				</FloatingLabel>
-				</Col>
-				<Col>
+
 				<FloatingLabel label="Salário" className="mb-3">
-				<Form.Control type="number" placeholder="Salário" name="salar"onChange={handleChange}/>
+				<Form.Control type="number" placeholder="Salário" name="salar" value={empregado.salar} onChange={handleChange15} disabled={desabilitar}/>
 				</FloatingLabel>
-				</Col>
-				<Col>
+
 				<FloatingLabel label="Data de admissão" className="mb-3">
-				<Form.Control type="date" placeholder="Data de admissão" name="adm" onChange={handleChange}/>
-				</FloatingLabel>
-				</Col>				
+				<Form.Control type="date" placeholder="Data de admissão" name="adm" disabled={desabilitar}/>
+				</FloatingLabel>		
 				{/* <Col sm="3">
 				</Col> */}
-			</Row>
-			</Form>
-			</Modal.Body>
-			<Modal.Footer>
-			<Button variant="secondary" onClick={handleClose}>
-				Close
-			</Button>
-			<Button variant="primary" type="submit" onClick={submit}>Gravar</Button>
-			</Modal.Footer>
-		</Modal>
+				<br></br>
+				<Button variant="primary" onClick={()=>handleReset()} disabled={desabilitarNew}>
+				{buttonName1}
+				</Button>
+				<ToggleButton id="tbg-btn-1" value={1} onClick={handleClick} disabled={desabilitarEdit}>
+				{buttonName}
+				</ToggleButton>
+				<Button variant="primary" onClick={()=>postorpath()} disabled={desabilitar}>Gravar</Button>
+			</Form>		
+			</Tab>
 
-			<br></br><br></br><br></br>
-
+			<Tab eventKey="profile" title="Gestão empregado">
+			<br></br>
+			<br></br>
 			<Table striped bordered hover variant="dark" >
 			<thead>
 			<tr>
@@ -202,6 +283,13 @@ function pathPost(id){
 				</tr>
 			</tbody>
 		</Table>
+				
+			</Tab>
+
+			</Tabs>
+			<br></br><br></br><br></br>
+
+
 
 			{/* <Form onSubmit={submit}>
 			<Row>
@@ -305,13 +393,6 @@ export default Empregados;
 //   Salvar
 // </Button>
 // </Form> */}
-
-<Col>
-<FloatingLabel label="Nome" className="mb-3">
-<Form.Control type="text" placeholder="Nome" />
-</FloatingLabel>
-</Col>
-
 			{/* <ListGroup horizontal>
 			<ListGroup.Item><input type="text" name="name" className="mb-2" placeholder="Nome"/></ListGroup.Item>
 			<ListGroup.Item><input type="text" name="name" className="mb-2" placeholder="Telefone"/></ListGroup.Item>

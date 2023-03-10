@@ -53,7 +53,7 @@ function App() {
             <NavDropdown title="Gestão" id="basic-nav-dropdown">
               <NavDropdown.Item href="/Empregados">Empregados</NavDropdown.Item>
               <NavDropdown.Item href="/Estoque">Estoque</NavDropdown.Item>
-              <NavDropdown.Item href="/CustoProd">Custo Prod</NavDropdown.Item>
+              <NavDropdown.Item href="/Caixa">Caixa</NavDropdown.Item>
               <NavDropdown.Item href="/Impostos">Impostos</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Relatórios" id="basic-nav-dropdown">
@@ -82,7 +82,7 @@ function App() {
             <Route path="/Estoque" element={<Estoque />} > </Route>
       </Routes>
       <Routes>
-            <Route path="/CustoProd" element={<CustoProd />} > </Route>
+            <Route path="/Caixa" element={<FluxoCaixa />} > </Route>
       </Routes>
       <Routes>
             <Route path="/Impostos" element={<Impostos />} > </Route>

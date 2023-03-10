@@ -193,6 +193,7 @@ function pathPost(id){
 		</Tab>
 			<Tab eventKey="gestaodespesa" title="Gestão- Despesa">
 				<Form>
+				<h2>Despesas- Gestão</h2><br/>
 				<Form.Group className="mb-3" controlId="formBasicEmail">
 				<Form.Label>Filtro de vigência</Form.Label>
 				<Form.Control name="filter" type="month" placeholder="Insira a vigência desejada" onChange={handleChange1}/>

@@ -1,19 +1,34 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useState, useEffect} from 'react';
-import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
+import { BsFillPencilFill, BsFillTrashFill, BsArrowLeftSquareFill, BsArrowRightSquareFill } from "react-icons/bs";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 
 function Estoque(){
+
+	const styles3 = {
+		color: "#E9573F",
+		backgroundColor: "#000000",
+	  };
+	
+	  const styles4 = {
+		color: "#F6BB42",
+		backgroundColor: "#000000",
+	  };
 
 
 	const [desabilitar, setDesabilitar] = useState(true);
 	const [project, setProject] = useState([]);
 	const [categories, setCategories] = useState([])
+	const [desabilitarNew, setDesabilitarNew] = useState(false);
+	const [desabilitarEdit, setDesabilitarEdit] = useState(false);
+
 
 	useEffect(() => {
 		fetch('http://localhost:4000/estoque/',{
@@ -81,11 +96,11 @@ function submit(e) {
 	createPost(project)
 }
 
-function desabilitar1(e) {
+function desabilitarNot(e) {
 	setDesabilitar(false);
 }
 
-function desabilitar2(e) {
+function desabilitarYes(e) {
 	setDesabilitar(true);
 }
 
@@ -94,31 +109,134 @@ function handleChange(e){
 	console.log(project)
 }
 
-const styles3 = {
-	color: "#E9573F",
-	backgroundColor: "#000000",
+  const [buttonNew, setButtonNew] = useState('Novo');
+  const [isSelectedNew, setIsSelectedNew] = useState(false);
+
+  
+  const [buttonEdit, setButtonEdit] = useState('Editar');
+  const [isSelectedEdit, setIsSelectedEdit] = useState(false);
+
+  const handleClick = () => {
+	if (!isSelectedEdit) {
+	  setButtonEdit('Cancelar');
+	  setIsSelectedEdit(true);
+	  desabilitarNot();
+	  setDesabilitarNew(true);
+	}
+	else{
+		setButtonEdit('Editar');
+		setIsSelectedEdit(false);
+		desabilitarYes();
+		setDesabilitarNew(false);
+	}
+  }
+
+  const handleReset = () => {
+	if(!isSelectedNew){
+		setButtonNew('Cancelar')
+		setIsSelectedNew(true)
+		desabilitarNot();
+		setDesabilitarEdit(true);
+	}
+	else{
+		setButtonNew('Novo')
+		setIsSelectedNew(false)
+		desabilitarYes();
+		setDesabilitarEdit(false);
+	}
+
   };
 
-  const styles4 = {
-	color: "#F6BB42",
-	backgroundColor: "#000000",
+  const postorpath = () => {
+	if(isSelectedEdit==true){
+		pathPost(project);
+	}
+	else{
+		createPost(project);
+	}
   };
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
 	return(
 		<div>
-			<h3>Cadastro de Estoque</h3><br></br>
+		<h3>Estoque</h3><br></br>
+		<Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3" >
+			<Tab eventKey="home" title="Cadastro estoque">
+			<Form>
+			<Button variant="primary" ><BsArrowLeftSquareFill/>
+				</Button>
+				<Button variant="primary"><BsArrowRightSquareFill/>
+				</Button>
+				<input className="mb-2" type="number" value="13"/>
+				<br></br>
+				<br></br>
+					<FloatingLabel label="Produto" className="mb-2">
+					<Form.Control type="text" placeholder="Produto" name="prod" onChange={handleChange} disabled={desabilitar}/>
+					</FloatingLabel>
+
+					<FloatingLabel label="Unidade" className="mb-2">
+					<Form.Control type="text" placeholder="Unidade" name="un" onChange={handleChange}disabled={desabilitar}/>
+					</FloatingLabel>
+
+					<FloatingLabel label="Quantidade" className="mb-2">
+					<Form.Control type="number" placeholder="Quantidade" name="qtd" onChange={handleChange}disabled={desabilitar}/>
+					</FloatingLabel>
+
+					<FloatingLabel label="Valor" className="mb-2">
+					<Form.Control type="number" placeholder="Valor" name="value" onChange={handleChange}disabled={desabilitar}/>
+					</FloatingLabel>
+
+					<FloatingLabel label="Data" className="mb-2">
+					<Form.Control type="date" placeholder="Data" name="date" onChange={handleChange}disabled={desabilitar}/>
+					</FloatingLabel>
+					<br></br>
+					<Button variant="primary" onClick={()=>handleReset()} disabled={desabilitarNew}>
+						{buttonNew}
+					</Button>
+					<Button variant="primary" onClick={()=>handleClick()} disabled={desabilitarEdit}>
+						{buttonEdit}
+					</Button>
+					<Button variant="primary" onClick={()=>postorpath()}>
+						Gravar
+					</Button>
+					</Form>
+			</Tab>
+
+			<Tab eventKey="profile" title="Gestão estoque">
+			<br></br>
+			<br></br>
+			<Table striped bordered hover variant="dark" >
+			<thead>
+			<tr>
+				<th>Produto</th>
+				<th>Unidade</th>
+				<th>Quantidade</th>
+				<th>Data</th>
+				<th>Editar</th>
+				<th>Deletar</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{categorie.prod}</p>})}</td>
+				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{categorie.un}</p>})}</td>
+				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{categorie.qtd}</p>})}</td>
+				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{new Date (categorie.date).toLocaleDateString()}</p>})}</td>
+				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p><button style={styles4} onClick={() => pathPost(categorie._id)}><BsFillPencilFill /></button></p>})}</td>
+				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p><button style={styles3} onClick={() => deletePost(categorie._id)}><BsFillTrashFill/></button></p>})}</td>
+				</tr>
+			</tbody>
+		</Table>
+			</Tab>
+		</Tabs>
+
+
+			{/* <h3>Cadastro de Estoque</h3><br></br>
 			<Button variant="primary" onClick={handleShow} >Novo
 				</Button>
-				<Button variant="primary" onClick={()=> desabilitar2()}>Cancelar
-			</Button>
-			<br></br>
+			<br></br> */}
 
-			<Modal show={show} onHide={handleClose} size="lg"centered>
+			{/* <Modal show={show} onHide={handleClose} size="lg"centered>
 				<Modal.Header closeButton>
 				<Modal.Title>Estoque</Modal.Title>
 				</Modal.Header>
@@ -161,30 +279,9 @@ const styles3 = {
 					Save Changes
 				</Button>
 				</Modal.Footer>
-      		</Modal>
+      		</Modal> */}
+
 		<br></br><br></br>
-			<Table striped bordered hover variant="dark" >
-			<thead>
-			<tr>
-				<th>Produto</th>
-				<th>Unidade</th>
-				<th>Quantidade</th>
-				<th>Data</th>
-				<th>Editar</th>
-				<th>Deletar</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{categorie.prod}</p>})}</td>
-				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{categorie.un}</p>})}</td>
-				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{categorie.qtd}</p>})}</td>
-				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p>{new Date (categorie.date).toLocaleDateString()}</p>})}</td>
-				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p><button style={styles4} onClick={() => pathPost(categorie._id)}><BsFillPencilFill /></button></p>})}</td>
-				<td>{categories.map( (categorie) => {if (new Date(categorie.date)) return <p><button style={styles3} onClick={() => deletePost(categorie._id)}><BsFillTrashFill/></button></p>})}</td>
-				</tr>
-			</tbody>
-		</Table>
 	  </div>
 	);
 }
